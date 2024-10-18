@@ -50,13 +50,12 @@
         }
         .bookmarked 
         {
-          background-color: #ffcc00; /* Highlights indicated tasks */
+          background-color: #ffcc00; 
         }
 
     </style>
 </head>
 <body>
-    <!-- HTML Code by Sir Tristan-->
     <h1>To-Do List</h1>
     <input type="text" id="taskInput" placeholder="Enter your task">
     <button id="addTaskBtn">Add Task</button>
@@ -90,7 +89,7 @@
             },
             toggleBookmark(index) 
             {
-                this.tasks[index].bookmarked = !this.tasks[index].bookmarked; // Toggle bookmark
+                this.tasks[index].bookmarked = !this.tasks[index].bookmarked; 
                 this.displayTasks();
             },
             displayTasks()   
@@ -126,6 +125,5 @@
             }
         }
     </script>
-    <!-- Html code -->
 </body>
 </html>
