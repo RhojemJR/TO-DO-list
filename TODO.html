@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body 
+        {
+            background-image: url('https://images.pexels.com/photos/821718/pexels-photo-821718.jpeg?cs=srgb&dl=pexels-alex-andrews-271121-821718.jpg&fm=jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; 
+            height: 100vh;
+            margin: 0;
+        }
+        #taskInput 
+        {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+        #addTaskBtn 
+        {
+            padding: 10px 15px;
+            border-radius: 5px;     
+        }
+        ul 
+        {
+            list-style-type: none;
+            padding: 0;
+            width: 300px;
+            margin-top: 20px;
+        }
+        li
+        {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #555555;
+            margin-bottom: 5px;
+            background-color: #444444; 
+            color: white;
+            border-radius: 5px;
+        }
+        .bookmarked 
+        {
+          background-color: #ffcc00; /* Highlights indicated tasks */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- HTML Code by Sir Tristan-->
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Enter your task">
+    <button id="addTaskBtn">Add Task</button>
+    <ul id="taskList"></ul>
+
+    <script>
+        class Task {
+            constructor(name) {
+                this.name = name;
+                this.dateAdded = new Date().toLocaleString();
+                this.bookmarked = false; 
+            }
+        }
+
+        const taskManager = {
+            tasks: [],
+            addTask(name) 
+            {
+                this.tasks.push(new Task(name));
+                this.displayTasks();
+            },
+            deleteTask(index) 
+            {
+                this.tasks.splice(index, 1);
+                this.displayTasks();
+            },
+            editTask(index, newName) 
+            {
+                this.tasks[index].name = newName;
+                this.displayTasks();
+            },
+            toggleBookmark(index) 
+            {
+                this.tasks[index].bookmarked = !this.tasks[index].bookmarked; // Toggle bookmark
+                this.displayTasks();
+            },
+            displayTasks()   
+            {
+                const taskList = document.getElementById('taskList');
+                taskList.innerHTML = this.tasks.map((task, index) =>
+                    `<li class="${task.bookmarked ? 'bookmarked' : ''}">
+                    <input type="checkbox" onclick="taskManager.toggleBookmark(${index})" ${task.bookmarked ? 'checked' : ''}>
+                    ${task.name} - Added on: ${task.dateAdded}
+                    <button onclick="taskManager.deleteTask(${index})">Delete</button>
+                    <button onclick="editTask(${index})">Edit</button>
+                    </li>`
+                ).join('');
+            }
+        };
+
+        document.getElementById('addTaskBtn').onclick = () => {
+            const taskInput = document.getElementById('taskInput');
+            const taskName = taskInput.value.trim();
+            if (taskName) {
+                taskManager.addTask(taskName);
+                taskInput.value = '';
+            } else {
+                alert("Error! Please Try Again.");
+            }
+        };
+        function editTask(index) {
+            const newTaskName = prompt("Edit your task:", taskManager.tasks[index].name);
+            if (newTaskName !== null && newTaskName.trim()) {
+                taskManager.editTask(index, newTaskName.trim());
+            } else {
+                alert("Error! Please enter a valid task name.");
+            }
+        }
+    </script>
+    <!-- Html code -->
+</body>
+</html>
